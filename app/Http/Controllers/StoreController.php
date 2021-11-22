@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRquest;
+use App\Models\Category;
 use App\Models\Store;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $stores = Store::paginate(10);
+        return view('admin.store.index',compact('stores'));
     }
 
     /**
@@ -24,7 +27,8 @@ class StoreController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.store.create',compact('categories'));
     }
 
     /**
@@ -33,9 +37,11 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRquest $request)
     {
-        //
+        Store::create($request->validated());
+        toastr()->success('Added successfully!');
+        return redirect()->route('stores.index');
     }
 
     /**
@@ -80,6 +86,8 @@ class StoreController extends Controller
      */
     public function destroy(Store $store)
     {
-        //
+        $store->delete();
+        toastr()->success('Deleted successfully!');
+        return redirect()->back();
     }
 }

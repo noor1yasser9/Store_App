@@ -18,7 +18,7 @@ class CreateStoresTable extends Migration
             $table->string("name");
             $table->foreignId("category_id")->constrained("categories")->cascadeOnDelete();
             $table->string("image");
-            $table->string();
+            $table->longText("desc");
             $table->timestamps();
         });
     }

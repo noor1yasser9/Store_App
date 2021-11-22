@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,8 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::resource('category', CategoryController::class);
+Route::resource('category', CategoryController::class)->middleware("auth");
+
+Route::resource('stores', StoreController::class)->middleware("auth");
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

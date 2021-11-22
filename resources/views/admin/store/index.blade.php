@@ -39,7 +39,7 @@
 										@foreach ( $stores as  $store)
                                         <tr>
                                             <td>{{$loop->index+1}}</td>
-                                            <td><img src=""/> {{$store->name}}</td>
+                                            <td> <img alt="{{$store->name}}" class="rounded-circle" width="50px" height="50px" src="{{Storage::url($store->image)}}"> {{$store->name}}</td>
                                             <th class="border-bottom-0">{{$store->category->name}}</th>
                                             <th class="border-bottom-0">4.6</th>
                                             <th class="border-bottom-0">{{$store->desc}}</th>

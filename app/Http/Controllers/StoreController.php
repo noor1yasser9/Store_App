@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRquest;
 use App\Models\Category;
 use App\Models\Store;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request ;
+use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
@@ -39,7 +40,20 @@ class StoreController extends Controller
      */
     public function store(StoreRquest $request)
     {
-        Store::create($request->validated());
+
+        $image= $request->file('image');
+        $path='images/';
+        $name=time()+rand(1,10000).'.'.$image->getClientOriginalExtension();
+        Storage::disk('public')->put($path.$name,file_get_contents($image));
+        $store = new Store();
+        $store->name = $request->name;
+        $store->image=$path.$name;
+        $store->desc = $request->desc;
+        $store->category_id = $request->category_id;
+
+
+        $store->save();
+        // Store::create($request->validate());
         toastr()->success('Added successfully!');
         return redirect()->route('stores.index');
     }

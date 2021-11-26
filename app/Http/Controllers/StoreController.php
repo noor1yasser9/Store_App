@@ -50,8 +50,6 @@ class StoreController extends Controller
         $store->image=$path.$name;
         $store->desc = $request->desc;
         $store->category_id = $request->category_id;
-
-
         $store->save();
         // Store::create($request->validate());
         toastr()->success('Added successfully!');
@@ -77,7 +75,8 @@ class StoreController extends Controller
      */
     public function edit(Store $store)
     {
-        //
+        $categories = Category::all();
+        return view('admin.store.update',compact('categories'),compact("store"));
     }
 
     /**
@@ -89,7 +88,22 @@ class StoreController extends Controller
      */
     public function update(Request $request, Store $store)
     {
-        //
+
+
+        if( $request->file('image')){
+            $image= $request->file('image');
+            $path='images/';
+            $name=time()+rand(1,10000).'.'.$image->getClientOriginalExtension();
+            Storage::disk('public')->put($path.$name,file_get_contents($image));
+            $store->image=$path.$name;
+       }
+        $store->name = $request->name;
+        $store->desc = $request->desc;
+        $store->category_id = $request->category_id;
+        $store->save();
+        toastr()->success('Updated successfully!');
+
+        return  redirect()->route('stores.index');
     }
 
     /**

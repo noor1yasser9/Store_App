@@ -39,7 +39,8 @@
 										@foreach ( $stores as  $store)
                                         <tr>
                                             <td>{{$loop->index+1}}</td>
-                                            <td> <img alt="{{$store->name}}" class="rounded-circle" width="50px" height="50px" src="{{Storage::url($store->image)}}"> {{$store->name}}</td>
+                                            <td> <img alt="{{$store->name}}" class="rounded-circle" width="50px" height="50px"
+                                                src="{{Storage::url($store->image)}}"> {{$store->name}}</td>
                                             <th class="border-bottom-0">{{$store->category->name}}</th>
                                             <th class="border-bottom-0">4.6</th>
                                             <th class="border-bottom-0">{{$store->desc}}</th>
@@ -53,8 +54,11 @@
                                                         <i class="fa fa-trash"></i>
                                                 </button>
                                                 </form>
-                                                <button class="btn btn-primary">
-                                                    <i class="fa fa-edit"></i></button>
+                                                {{-- <button class="btn btn-primary">
+                                                    <i class="fa fa-edit"></i></button> --}}
+
+                                                    <a href="{{ route('stores.edit',$store->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+
                                             </td>
                                         </tr>
                                         @endforeach

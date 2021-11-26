@@ -19,22 +19,23 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="mb-4">
-                                  <form class="form-horizontal"  method="POST"  action="{{ route('stores.store') }}"  enctype="multipart/form-data">
+                                  <form class="form-horizontal"  method="POST"  action="{{ route('stores.update', $store->id)}}"  enctype="multipart/form-data">
                                          @csrf
+                                         @method('PUT')
                                          <div class="form-group">
                                         <h6 class="mb-1 mt-3">Store Name</h6>
-                                         <input type="text" class="form-control" name="name" id="inputName" placeholder="Name Store">
+                                         <input type="text" class="form-control" value="{{$store->name}}" name="name" id="inputName" placeholder="Name Store">
                                          <h6 class="mb-1 mt-3">Slect Category</h6>
                                          <select name="category_id" class="form-control SlectBox">
-                                             <!--placeholder-->
                                              @foreach ( $categories as  $category)
-                                             <option  value="{{$category->id}}">{{$category->name}}</option>
+                                             <option  value="{{$category->id}}"  @if ($store->category_id == $category->id) selected   @else>{{$category->name}}</option>
+                                             @endif
                                              @endforeach
                                          </select>
                                         </div>
                                            <div class="form-group">
                                             <h6 class="mb-1 mt-3">Store Desicription</h6>
-                                            <input type="text" class="form-control" name="desc" id="inputName" placeholder="Desicription">
+                                            <input type="text" class="form-control" title="{{$store->desc}}" value="{{$store->desc}}" name="desc" id="inputName" placeholder="Desicription">
                                            </div>
                                         </div>
                                         <div>
@@ -42,8 +43,8 @@
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col-sm-12 col-md-4" >
-                                            <img id="blah"    src="#"
-                                              class="rounded "  height="200px" />
+                                            <img id="blah"    src="{{Storage::url($store->image)}}"
+                                              alt="{{$store->image}}" class="rounded "  height="200px" />
                                                </div>
                                       </div>
                                         <div>
@@ -71,6 +72,7 @@
 @section('js')
 <!--Internal  Datepicker js -->
 <script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+
 <script>
     imgInp.onchange = evt => {
   const [file] = imgInp.files
@@ -79,6 +81,7 @@
   }
 }
 </script>
+
 <!-- Internal Select2 js-->
 <script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 <!--Internal Fileuploads js-->

@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
+use App\Models\Store;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CategoryRequest extends FormRequest
 {
@@ -23,8 +26,22 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->name);
+       $d = Category::withTrashed()->where('name',$this->name)->first();
+
+       $c =  Category::withTrashed()->where("name",$this->name)->first();
+       if(!$c){
         return [
-           'name' => 'required|unique:categories,name,',
-        ];
+           'name' => 'required|unique:categories,name',
+           'image'=> 'required'
+        ];}
+        else{
+            // dd($c->deleted_at);
+
+
+            $s=  Store::withTrashed()->where("deleted_at", $c->deleted_at)->restore();
+            $c->restore();
+        return ['name'=>'required',
+        'image'=> 'required'];}
     }
 }

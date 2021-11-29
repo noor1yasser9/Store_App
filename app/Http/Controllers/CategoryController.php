@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -38,8 +40,17 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
 
-    Category::create($request->validated());
-    toastr()->success('Added successfully!');
+
+
+        $data = $request->validated();
+
+        $image= $request->file('image');
+        $path='images/categories/';
+        $name=time()+rand(1,10000).'.'.$image->getClientOriginalExtension();
+        Storage::disk('public')->put($path.$name,file_get_contents($image));
+        $data['image'] = $path.$name;
+        Category::create( $data);
+     toastr()->success('Added successfully!');
 
     return redirect()->route("category.index");
     }
@@ -75,7 +86,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-       $category->update( $request->all());
+
+
+
+        $data = $request->validated();
+
+        $image= $request->file('image');
+        $path='images/categories/';
+        $name=time()+rand(1,10000).'.'.$image->getClientOriginalExtension();
+        Storage::disk('public')->put($path.$name,file_get_contents($image));
+        $data['image'] = $path.$name;
+       $category->update(  $data);
        toastr()->success('Updated successfully!');
 
        return redirect()->route("category.index");
@@ -90,6 +111,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
       $category->delete();
+      Store::where("category_id",$category->id)->delete();
       toastr()->success('Deleted successfully!');
 
         return redirect()->route("category.index");

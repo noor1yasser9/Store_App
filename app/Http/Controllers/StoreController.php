@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRquest;
+use App\Http\Requests\UpdateStoreRquest;
 use App\Models\Category;
 use App\Models\Store;
 use Illuminate\Http\Request ;
@@ -18,6 +19,7 @@ class StoreController extends Controller
     public function index()
     {
         $stores = Store::paginate(10);
+        ;
         return view('admin.store.index',compact('stores'));
     }
 
@@ -41,17 +43,19 @@ class StoreController extends Controller
     public function store(StoreRquest $request)
     {
 
+
+
+        $data = $request->validated();
+
+
+
         $image= $request->file('image');
-        $path='images/';
+        $path='images/stores/';
         $name=time()+rand(1,10000).'.'.$image->getClientOriginalExtension();
         Storage::disk('public')->put($path.$name,file_get_contents($image));
-        $store = new Store();
-        $store->name = $request->name;
-        $store->image=$path.$name;
-        $store->desc = $request->desc;
-        $store->category_id = $request->category_id;
-        $store->save();
-        // Store::create($request->validate());
+        $data['image'] = $path.$name;
+
+        Store::create($data);
         toastr()->success('Added successfully!');
         return redirect()->route('stores.index');
     }
@@ -75,6 +79,7 @@ class StoreController extends Controller
      */
     public function edit(Store $store)
     {
+
         $categories = Category::all();
         return view('admin.store.update',compact('categories'),compact("store"));
     }
@@ -86,8 +91,9 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Store $store)
+    public function update(UpdateStoreRquest $request, Store $store)
     {
+
 
 
         if( $request->file('image')){

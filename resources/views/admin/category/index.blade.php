@@ -32,6 +32,7 @@
 											<tr>
 												<th class="border-bottom-0">#</th>
 												<th class="border-bottom-0">Name</th>
+                                                <th class="border-bottom-0">Image</th>
                                                 <th class="border-bottom-0"><i class="fa fa-cogs"></i></th>
 											</tr>
 										</thead>
@@ -40,6 +41,8 @@
                                         <tr>
                                             <td>{{$loop->index+1}}</td>
                                             <td>{{$category->name}}</td>
+                                            <td> <img alt="{{$category->name}}" class="rounded" width="200px" height="150px"
+                                                src="{{Storage::url($category->image)}}"></td>
                                             <td>
                                                 <form action="{{ route('category.destroy', $category->id) }}" style="display: inline;"
                                                      method="POST">
@@ -86,12 +89,26 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="card-body pt-0">
-                                                    <form class="form-horizontal"  method="POST" action="{{ route('category.store') }}">
+                                                    <form class="form-horizontal"  method="POST" action="{{ route('category.store') }}" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="form-group">
                                                             <input type="text" class="form-control" name="name" id="inputName" placeholder="Name Category">
                                                         </div>
-                                                        <div class="modal-footer">
+                                                        <div class="row mb-4">
+                                                            <div class="col-sm-12 col-md-4" >
+                                                            <img id="blah"    src="#"
+                                                              class="rounded "  height="200px" />
+                                                               </div>
+                                                      </div>
+                                                        <div>
+                                                            <h6 class="mb-1">File Upload</h6>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <div class="col-sm-12 col-md-4" >
+                                                                <input type="file"name="image" title="Update"  id="imgInp"  data-height="140" />
+                                                            </div>
+                                                      </div>
+                                                        <div cla    ss="modal-footer">
                                                             <button type="submit" class="btn btn-primary">Save</button>
                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>
@@ -115,7 +132,14 @@
 
 
 @section('js')
-<!-- Internal Data tables -->
+<script>
+    imgInp.onchange = evt => {
+  const [file] = imgInp.files
+  if (file) {
+    blah.src = URL.createObjectURL(file)
+  }
+}
+</script>
 <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>

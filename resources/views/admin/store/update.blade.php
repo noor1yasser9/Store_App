@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col-sm-12 col-md-4" >
-                                                <input type="file"name="image" title="Update"  id="imgInp"  data-height="140" />
+                                                <input type="file"name="image" value="{{$store->image}}" title="Update"  id="imgInp"  data-height="140" />
                                             </div>
                                       </div>
                                            <button type="submit" class="btn btn-primary">Save</button>

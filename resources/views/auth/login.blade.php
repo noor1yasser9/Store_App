@@ -40,20 +40,9 @@
                                       <strong>{{ $message }}</strong>
                                       </span>
                                         @enderror
-                                        <div class="form-group row">
-                                            <div class="col-md-6 offset-md-4">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <label class="form-check-label" for="remember">
-                                                        {{ __('تذكرني') }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-main-primary btn-block">
-                                        {{ __('تسجيل الدخول') }}
+                                       تسجيل الدخول
                                     </button>
                                 </form>
                             </div>

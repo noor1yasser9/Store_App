@@ -30,6 +30,7 @@
 												<th class="border-bottom-0">#</th>
 												<th class="border-bottom-0">Name</th>
                                                 <th class="border-bottom-0">Category</th>
+                                                <th class="border-bottom-0">Image</th>
                                                 <th class="border-bottom-0">Rating</th>
                                                 <th class="border-bottom-0">Description</th>
                                                 <th class="border-bottom-0"><i class="fa fa-cogs"></i></th>
@@ -37,30 +38,28 @@
 										</thead>
 										<tbody>
 										@foreach ( $stores as  $store)
+                                        {{-- @isset ($store->category->name) --}}
                                         <tr>
                                             <td>{{$loop->index+1}}</td>
-                                            <td> <img alt="{{$store->name}}" class="rounded-circle" width="50px" height="50px"
-                                                src="{{Storage::url($store->image)}}"> {{$store->name}}</td>
-                                            <th class="border-bottom-0">{{$store->category->name}}</th>
+                                            <td>{{$store->name}}</td>
+                                                <th class="border-bottom-0"> {{$store->category->name}}</th>
+                                                <th class="border-bottom-0"> <img alt="{{$store->name}}" class="rounded"  width="200px" height="150px"
+                                                src="{{Storage::url($store->image)}}"></th>
                                             <th class="border-bottom-0">4.6</th>
                                             <th class="border-bottom-0">{{$store->desc}}</th>
-
                                             <td>
                                                 <form action="{{ route('stores.destroy', $store->id) }}" style="display: inline;"
                                                      method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-danger remove">
+                                                    <button class="btn btn-danger remove mt-2">
                                                         <i class="fa fa-trash"></i>
                                                 </button>
                                                 </form>
-                                                {{-- <button class="btn btn-primary">
-                                                    <i class="fa fa-edit"></i></button> --}}
-
-                                                    <a href="{{ route('stores.edit',$store->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-
+                                                <a href="{{ route('stores.edit',$store->id) }}" class="btn btn-primary mt-2"><i class="fa fa-edit"></i></a>
                                             </td>
                                         </tr>
+                                        {{-- @endisset --}}
                                         @endforeach
 										</tbody>
                                         {{$stores->links()}}

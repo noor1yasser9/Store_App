@@ -20,6 +20,15 @@ class Store extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function rating()
+    {
+        return $this->hasMany(Rating::class)
+         ->selectRaw('count(store_id) as s, store_id, sum(rating)/count(store_id) as rating') ->groupBy('store_id');
+    }
 
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 
 }

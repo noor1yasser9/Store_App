@@ -18,8 +18,9 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = Store::paginate(10);
+        $stores = Store::with('rating')->paginate(10);
         ;
+        
         return view('admin.store.index',compact('stores'));
     }
 

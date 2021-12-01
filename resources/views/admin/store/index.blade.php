@@ -40,14 +40,25 @@
 										@foreach ( $stores as  $store)
                                         {{-- @isset ($store->category->name) --}}
                                         <tr>
-                                            <td>{{$loop->index+1}}</td>
+                                            <td class="">{{$loop->index+1}}</td>
                                             <td>{{$store->name}}</td>
-                                                <th class="border-bottom-0"> {{$store->category->name}}</th>
-                                                <th class="border-bottom-0"> <img alt="{{$store->name}}" class="rounded"  width="200px" height="150px"
+                                                <th class="w-25 border-bottom-0"> {{$store->category->name}}</th>
+                                                <th class="w-50 border-bottom-0"> <img alt="{{$store->name}}" class="rounded"  width="200px" height="150px"
                                                 src="{{Storage::url($store->image)}}"></th>
-                                            <th class="border-bottom-0">4.6</th>
-                                            <th class="border-bottom-0">{{$store->desc}}</th>
-                                            <td>
+                                            <th class="w-25 border-bottom-0">  @if (count($store->rating) > 0)
+                                                @for ($i =0 ; $i <ceil($store->rating[0]->rating) ; $i++)
+                                                <i class="ion ion-md-star text-warning"></i>
+                                                @endfor
+                                                @for ($i =0 ; $i <5-ceil($store->rating[0]->rating) ; $i++)
+                                                    <i class="ion ion-md-star-outline text-warning"></i>
+                                                @endfor
+                                                @else
+                                                @for ($i =0 ; $i <5 ; $i++)
+                                                    <i class="ion ion-md-star-outline text-warning"></i>
+                                                    @endfor
+                                                @endif</th>
+                                            <th class=" border-bottom-0">{{$store->desc}}</th>
+                                            <td class="w-75">
                                                 <form action="{{ route('stores.destroy', $store->id) }}" style="display: inline;"
                                                      method="POST">
                                                     @method('DELETE')

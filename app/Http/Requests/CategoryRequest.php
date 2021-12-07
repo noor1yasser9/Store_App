@@ -27,9 +27,11 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         // dd($this->name);
-       $d = Category::withTrashed()->where('name',$this->name)->first();
+       $d = Category::withTrashed()
+       ->where('name',$this->name)->first();
 
-       $c =  Category::withTrashed()->where("name",$this->name)->first();
+       $c =  Category::withTrashed()
+       ->where("name",$this->name)->first();
        if(!$c){
         return [
            'name' => 'required|unique:categories,name',
@@ -39,7 +41,9 @@ class CategoryRequest extends FormRequest
             // dd($c->deleted_at);
 
 
-            $s=  Store::withTrashed()->where("deleted_at", $c->deleted_at)->restore();
+            $s=  Store::withTrashed()
+            ->where("deleted_at", $c->deleted_at)
+            ->restore();
             $c->restore();
         return ['name'=>'required',
         'image'=> 'required'];}
